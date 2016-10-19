@@ -1,6 +1,6 @@
-[![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
+[![Docker Repository on Quay.io](https://quay.io/repository/mizsha/gitlab-ci-docker-runner/status "Docker Repository on Quay.io")](https://quay.io/repository/mizsha/gitlab-ci-docker-runner)
 
-# sameersbn/gitlab-ci-multi-runner:1.1.4-5
+# mizsha/gitlab-ci-docker-runner:1.1.4-5
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -20,7 +20,7 @@
 
 # Introduction
 
-`Dockerfile` to create a [Docker](https://www.docker.com/) container base image for [gitlab-ci-multi-runner](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner). Use this image to build your CI runner images.
+`Dockerfile` to create a [Docker](https://www.docker.com/) container base image for [gitlab-ci-docker-runner](https://gitlab.com/gitlab-org/gitlab-ci-docker-runner). Use this image to build your CI runner images.
 
 ## Contributing
 
@@ -46,18 +46,18 @@ If the above recommendations do not help then [report your issue](../../issues/n
 
 ## Installation
 
-Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/sameersbn/gitlab-ci-multi-runner) and is the recommended method of installation.
+Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/mizsha/gitlab-ci-docker-runner) and is the recommended method of installation.
 
-> **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/gitlab-ci-multi-runner)
+> **Note**: Builds are also available on [Quay.io](https://quay.io/repository/mizsha/gitlab-ci-docker-runner)
 
 ```bash
-docker pull sameersbn/gitlab-ci-multi-runner:1.1.4-5
+docker pull mizsha/gitlab-ci-docker-runner:1.1.4-5
 ```
 
 Alternatively you can build the image yourself.
 
 ```bash
-docker build -t sameersbn/gitlab-ci-multi-runner github.com/sameersbn/docker-gitlab-ci-multi-runner
+docker build -t mizsha/gitlab-ci-docker-runner github.com/mizsha/docker-gitlab-ci-docker-runner
 ```
 
 ## Quickstart
@@ -65,11 +65,11 @@ docker build -t sameersbn/gitlab-ci-multi-runner github.com/sameersbn/docker-git
 Before a runner can process your CI jobs, it needs to be authorized to access the the GitLab CI server. The `CI_SERVER_URL`, `RUNNER_TOKEN`, `RUNNER_DESCRIPTION` and `RUNNER_EXECUTOR` environment variables are used to register the runner on GitLab CI.
 
 ```bash
-docker run --name gitlab-ci-multi-runner -d --restart=always \
+docker run --name gitlab-ci-docker-runner -d --restart=always \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
   --env='CI_SERVER_URL=http://git.example.com/ci' --env='RUNNER_TOKEN=xxxxxxxxx' \
   --env='RUNNER_DESCRIPTION=myrunner' --env='RUNNER_EXECUTOR=shell' \
-  sameersbn/gitlab-ci-multi-runner:1.1.4-5
+  mizsha/gitlab-ci-docker-runner:1.1.4-5
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
@@ -78,12 +78,12 @@ Update the values of `CI_SERVER_URL`, `RUNNER_TOKEN` and `RUNNER_DESCRIPTION` in
 
 ## Command-line arguments
 
-You can customize the launch command by specifying arguments to `gitlab-ci-multi-runner` on the `docker run` command. For example the following command prints the help menu of `gitlab-ci-multi-runner` command:
+You can customize the launch command by specifying arguments to `gitlab-ci-docker-runner` on the `docker run` command. For example the following command prints the help menu of `gitlab-ci-docker-runner` command:
 
 ```bash
-docker run --name gitlab-ci-multi-runner -it --rm \
+docker run --name gitlab-ci-docker-runner -it --rm \
   --volume /srv/docker/gitlab-runner:/home/gitlab_ci_multi_runner/data \
-  sameersbn/gitlab-ci-multi-runner:1.1.4-5 --help
+  mizsha/gitlab-ci-docker-runner:1.1.4-5 --help
 ```
 
 ## Persistence
@@ -118,7 +118,7 @@ The runner is configured to look for trusted SSL certificates at `/home/gitlab_c
 
 Create a file named `ca.crt` in a `certs` folder at the root of your persistent data volume. The `ca.crt` file should contain the root certificates of all the servers you want to trust.
 
-With respect to GitLab, append the contents of the `gitlab.crt` file to `ca.crt`. For more information on the `gitlab.crt` file please refer the [README](https://github.com/sameersbn/docker-gitlab/blob/master/README.md#ssl) of the [docker-gitlab](https://github.com/sameersbn/docker-gitlab) container.
+With respect to GitLab, append the contents of the `gitlab.crt` file to `ca.crt`. For more information on the `gitlab.crt` file please refer the [README](https://github.com/mizsha/docker-gitlab/blob/master/README.md#ssl) of the [docker-gitlab](https://github.com/mizsha/docker-gitlab) container.
 
 Similarly you should also trust the SSL certificate of the GitLab CI server by appending the contents of the `gitlab-ci.crt` file to `ca.crt`.
 
@@ -131,27 +131,27 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull sameersbn/gitlab-ci-multi-runner:1.1.4-5
+  docker pull mizsha/gitlab-ci-docker-runner:1.1.4-5
   ```
 
   2. Stop the currently running image:
 
   ```bash
-  docker stop gitlab-ci-multi-runner
+  docker stop gitlab-ci-docker-runner
   ```
 
   3. Remove the stopped container
 
   ```bash
-  docker rm -v gitlab-ci-multi-runner
+  docker rm -v gitlab-ci-docker-runner
   ```
 
   4. Start the updated image
 
   ```bash
-  docker run -name gitlab-ci-multi-runner -d \
+  docker run -name gitlab-ci-docker-runner -d \
     [OPTIONS] \
-    sameersbn/gitlab-ci-multi-runner:1.1.4-5
+    mizsha/gitlab-ci-docker-runner:1.1.4-5
   ```
 
 ## Shell Access
@@ -159,9 +159,9 @@ To upgrade to newer releases:
 For debugging and maintenance purposes you may want access the containers shell. If you are using Docker version `1.3.0` or higher you can access a running containers shell by starting `bash` using `docker exec`:
 
 ```bash
-docker exec -it gitlab-ci-multi-runner bash
+docker exec -it gitlab-ci-docker-runner bash
 ```
 
 # List of runners using this image
 
-* [docker-gitlab-ci-multi-runner-ruby](https://github.com/outcoldman/docker-gitlab-ci-multi-runner-ruby) to run ruby builds
+* [docker-gitlab-ci-docker-runner-ruby](https://github.com/outcoldman/docker-gitlab-ci-docker-runner-ruby) to run ruby builds
